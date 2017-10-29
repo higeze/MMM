@@ -10,11 +10,11 @@ namespace MMM.Models
 {
     public class MRModel:BindableBase
     {
-        private string _MRNo;
-        public string MRNo
+        private string _ourMRNo;
+        public string OurMRNo
         { 
-            get { return _MRNo; }
-            set { SetProperty(ref _MRNo, value); }
+            get { return _ourMRNo; }
+            set { SetProperty(ref _ourMRNo, value); }
         }
 
         private string _cusMRNo;

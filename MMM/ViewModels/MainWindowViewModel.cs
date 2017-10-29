@@ -14,9 +14,9 @@ namespace MMM.ViewModels
     {
         public MainWindowViewModel()
         {
-            MRs.Add(new MRModel() { KHIMRNo = "A11111", CusMRNo = "QN798797" });
-            MRs.Add(new MRModel() { KHIMRNo = "A11112", CusMRNo = "QN798707" });
-            MRs.Add(new MRModel() { KHIMRNo = "A11113", CusMRNo = "QN798717" });
+            MRs.Add(new MRModel() { OurMRNo = "A11111", CusMRNo = "QN798797" });
+            MRs.Add(new MRModel() { OurMRNo = "A11112", CusMRNo = "QN798707" });
+            MRs.Add(new MRModel() { OurMRNo = "A11113", CusMRNo = "QN798717" });
         }
         private ObservableCollection<MRModel> _mrs = new ObservableCollection<MRModel>();
         public ObservableCollection<MRModel> MRs
