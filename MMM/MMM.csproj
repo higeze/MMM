@@ -58,6 +58,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="HiLib\DataGridTextColumnEx.cs" />
     <Compile Include="HiLib\FileListBox.cs" />
     <Compile Include="Models\MRModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />

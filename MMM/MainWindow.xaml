@@ -14,7 +14,11 @@
             <hilib:FileListBox Height="100"></hilib:FileListBox>
             <fdg:FilteringDataGrid IsFilteringCaseSensitive="False" ItemsSource="{Binding Path=MRs}" 
                                CanUserResizeColumns="True"
-                               AutoGenerateColumns="True" />
+                               AutoGenerateColumns="False" >
+                <DataGrid.Columns>
+                    <hilib:DataGridTextColumnEx Header="OurMRNo" MultiLine="True" Binding="{Binding Path=OurMRNo}"/>
+                </DataGrid.Columns>
+            </fdg:FilteringDataGrid>
         </StackPanel>
     </Grid>
 </Window>
