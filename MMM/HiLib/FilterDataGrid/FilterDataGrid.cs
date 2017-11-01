@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Text;
 using System.Windows;
+using System.Windows.Input;
 using System.Reflection;
 using System.Windows.Data;
 using System.Windows.Media;
@@ -12,6 +13,27 @@ using System.Collections.Generic;
 
 namespace HiLib.FilterDataGrid
 {
+    public static class FilteringDataGridAttach
+    {
+        // RegisterAttachedメソッドを使って添付プロパティを作成する
+        public static readonly DependencyProperty FilterPathProperty =
+            DependencyProperty.RegisterAttached(
+                "FilterPath",
+                typeof(string),
+                typeof(FilteringDataGridAttach),
+                new PropertyMetadata(null));
+
+        // プログラムからアクセスするための添付プロパティのラッパー
+        public static string GetFilterPath(DependencyObject obj)
+        {
+            return (string)obj.GetValue(FilterPathProperty);
+        }
+
+        public static void SetFilterPath(DependencyObject obj, string value)
+        {
+            obj.SetValue(FilterPathProperty, value);
+        }
+    }
     /// <summary>
     /// A grid that makes inline filtering possible.
     /// </summary>
@@ -51,8 +73,10 @@ namespace HiLib.FilterDataGrid
             columnFilters = new Dictionary<string, string>();
             propertyCache = new Dictionary<string, PropertyInfo>();
 
-            // Add a handler for all text changes
+            // Add a handler for all text but handle only filter textbox
             AddHandler(TextBox.TextChangedEvent, new TextChangedEventHandler(OnTextChanged), true);
+            AddHandler(TextBox.GotFocusEvent, new RoutedEventHandler(OnTextGotFocus), true);
+		 
 
             // Datacontext changed, so clear the cache
             DataContextChanged += new DependencyPropertyChangedEventHandler(FilteringDataGrid_DataContextChanged);
@@ -89,6 +113,27 @@ namespace HiLib.FilterDataGrid
         }
 
         /// <summary>
+        /// When a filter text box focusesd, need to commit end
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnTextGotFocus(object sender, RoutedEventArgs e)
+        {
+            // Get the textbox
+            TextBox filterTextBox = e.OriginalSource as TextBox;
+
+            // Get the header of the textbox
+            DataGridColumnHeader header = TryFindParent<DataGridColumnHeader>(filterTextBox);
+            if (header != null)
+            {
+                //Needt to call 2 times
+                this.CommitEdit();
+                this.CommitEdit();
+            }
+        
+        }
+
+        /// <summary>
         /// Update the internal filter
         /// </summary>
         /// <param name="textBox"></param>
@@ -97,8 +142,8 @@ namespace HiLib.FilterDataGrid
         {
             // Try to get the property bound to the column.
             // This should be stored as datacontext.
-            string columnBinding = header.DataContext != null ? header.DataContext.ToString() : "";
-
+            //string columnBinding = header.DataContext != null ? header.DataContext.ToString() : "";
+            string columnBinding = FilteringDataGridAttach.GetFilterPath(header.Column);
             // Set the filter 
             if (!String.IsNullOrEmpty(columnBinding))
                 columnFilters[columnBinding] = textBox.Text;

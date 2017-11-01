@@ -16,7 +16,13 @@
                                CanUserResizeColumns="True"
                                AutoGenerateColumns="False" >
                 <DataGrid.Columns>
-                    <hilib:DataGridTextColumnEx Header="OurMRNo" MultiLine="True" Binding="{Binding Path=OurMRNo}"/>
+                    <hilib:DataGridTextColumnEx
+                        fdg:FilteringDataGridAttach.FilterPath="OurMRNo"
+                        Header="Test" MultiLine="True" Binding="{Binding Path=OurMRNo}"/>
+                    <DataGridTextColumn
+                        Header="Hoge"
+                        fdg:FilteringDataGridAttach.FilterPath="CusMRNo"
+                        Binding="{Binding CusMRNo}" />
                 </DataGrid.Columns>
             </fdg:FilteringDataGrid>
         </StackPanel>
